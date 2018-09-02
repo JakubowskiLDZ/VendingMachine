@@ -1,18 +1,18 @@
 package pl.sdacademy.vending.model;
 
-import pl.sdacademy.vending.util.Configuration;
+        import pl.sdacademy.vending.util.Configuration;
 
 public class VendingMachine {
     private final Configuration configuration;
 
 
-    public VendingMachine() {
+    public VendingMachine(Configuration configuration) {
+        this.configuration = configuration;
 
-        configuration = Configuration.getInstance();
     }
 
     public Long rowsSize(){
-        return configuration.getProperty("machine.size.row",6L);
+        return configuration.getProperty("machine.size.rows",6L);
     }
     public Long colSize(){
         return configuration.getProperty("machine.size.cols", 4L);
