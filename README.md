@@ -1,1 +1,1 @@
-# VendingMachine
+# javaktw7-vendingMachine
