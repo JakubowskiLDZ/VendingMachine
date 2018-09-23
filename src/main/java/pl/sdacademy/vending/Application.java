@@ -20,7 +20,8 @@ import java.util.Scanner;
 public class Application {
     // pole do przechowywania głównego kontrolera
     private final CustomerOperationController customerOperationController;
-    private final VendingMachine vendingMachine;
+    private final EmplyeeController emplyeeController;
+
 
     /**
      * Kostruktor dba o ustawienie wszystkich wymaganych zależności w klasach projektu.
@@ -30,18 +31,18 @@ public class Application {
         Configuration configuration = PropertiesFileConfiguration.getInstance();
         // Mając konfigurację aplikacji, możemy utworzyć VendingMachine, który jej wymagał. Wcześniej nie było to możliwe,
         // ponieważ najepierw trzeba było stworzyć wymagany obiekt
-        vendingMachine = new VendingMachine(configuration);
-        vendingMachine.init();
+
 
         VendingmachineRepository vendingMachineRepository = new HardDriveVendingMachineRepository(configuration);
         // po utworzeniu VendingMachine, możemy przekazać go do konstruktora CustomerOperationController, tworząc tym samym
         // instancję głównego kontrolera. Zapisujemy tę instancję do pola w klasie.
-        customerOperationController = new CustomerOperationController(vendingMachine);
+        customerOperationController = new CustomerOperationController(vendingMachineRepository);
 
         EmployeeService employeeService = new DefaultEmployeeService(vendingMachineRepository, configuration);
 
-        EmplyeeController emplyeeController = new EmplyeeController(employeeService);
-        CustomerOperationController customerOperationController = new CustomerOperationController(vendingMachine);
+        this.emplyeeController = new EmplyeeController(employeeService);
+        EmplyeeController emplyeeController = this.emplyeeController;
+        CustomerOperationController customerOperationController = new CustomerOperationController(vendingMachineRepository);
     }
 
     /**
