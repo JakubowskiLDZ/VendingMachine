@@ -245,7 +245,9 @@ public class VendingMachine implements Serializable {
     public Optional<Tray> removeTrayWithSymbol(String symbol) {
         int rowNumber = getRowNumberForSymbol(symbol);
         int colNumber = getColNumberForSymbol(symbol);
-        return trayDetailsAtPosition(rowNumber, colNumber);
+        Optional<Tray> potentialTray = getTrayForSymbol(symbol);
+        trays[rowNumber][colNumber]= null;
+        return potentialTray;
     }
 
     private int getColNumberForSymbol(String symbol) {
