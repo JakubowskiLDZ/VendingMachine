@@ -30,6 +30,7 @@ public class VendingMachine implements Serializable {
     /**
      * Konstruktor, który umożliwia przekazanie używanej klasy konfiguracji. Podczas normalnego działania aplikacji będzie
      * to jedna z implemetacji interface {@link Configuration}, a podczas testów jednostkowych może to być zmockowany obiekt
+     *
      * @param configuration obiekt zawierający używaną konfigurację.
      */
     public VendingMachine(Configuration configuration) {
@@ -47,7 +48,7 @@ public class VendingMachine implements Serializable {
 
     }
 
-    public void init(){
+    public void init() {
         for (int rowNumber = 0; rowNumber < maxRowsSize; rowNumber++) {
             for (int colNumber = 0; colNumber < maxColsSize; colNumber++) {
                 trays[rowNumber][colNumber] =
@@ -56,7 +57,6 @@ public class VendingMachine implements Serializable {
         }
 
     }
-
 
 
     private Tray createTrayForPosition(int rowNumber, int colNumber) {
@@ -124,6 +124,7 @@ public class VendingMachine implements Serializable {
     /**
      * Metoda umożliwiająca pobranie ilości wierszy automatu z obiektu konfiguracji. Sposób pobierania wartości parametry
      * zależy od implemetacji interface Configuration.
+     *
      * @return ilość wieszy w automacie pobrana z konfiguracji lub domyślna wartość 6.
      */
     public Long rowsSize() {
@@ -134,6 +135,7 @@ public class VendingMachine implements Serializable {
     /**
      * Metoda umożliwiająca pobranie ilości kolumn automatu z obiektu konfiguracji. Sposób pobierania wartości parametry
      * zależy od implemetacji interface Configuration.
+     *
      * @return ilość wieszy w automacie pobrana z konfiguracji lub domyślna wartość 4.
      */
     public Long colsSize() {
@@ -144,6 +146,7 @@ public class VendingMachine implements Serializable {
     /**
      * Zwraca obiekt {@link Tray} opakowany w {@link Optional} dla wskazanej pozycji. W przypadku, gdy pod wskazanym
      * adresem nie ma tacki, zwraca pusty obiekt optional.
+     *
      * @param rowNumber
      * @param colNumber
      * @return
@@ -158,6 +161,7 @@ public class VendingMachine implements Serializable {
      * Pobiera nazwę pierwszego produktu w tacce bez pobierania tego produktu. Zadanie pobrania nazwy produktu jest
      * oddelegowane do klasy {@link Tray}, która zwraca nazwę produktu jako Optional. Takca może nie posiadać żadnego
      * produktu, wtedy zwracany jest pusty obiekt optional. W przypadku braku tacki, również zwracany jest pusty optional.
+     *
      * @param rowNumber
      * @param colNumber
      * @return
@@ -177,6 +181,7 @@ public class VendingMachine implements Serializable {
      * Umożliwia pobranie produktu z automatu przez kupującego. Metoda ta aktualnie nie analizuje dostępnych funduszy oraz
      * ceny produktu. Zamiast tego zwraca pobrany produkt, jeżeli był dostępny. Jeżeli produkt nie był dostępny, to zwraca
      * pusty obiekt optional.
+     *
      * @param symbol
      * @return
      */
@@ -198,32 +203,49 @@ public class VendingMachine implements Serializable {
      * przypomnieć sobie numerację znaków.
      * Podobnie postępujemy dla symbolu kolumny, gdzie pierwszą kolumną jest ta o numerze '1', dlatego podczas konwersji
      * na numer kolumny odejmujemy właśnie ten znak.
+     *
      * @param symbol
      * @return
      */
     private Optional<Tray> getTrayForSymbol(String symbol) {
         int rowNumber = getRowNumberForSymbol(symbol);
         int colNumber = getColNumberForSymbol(symbol);
-        return trayDetailsAtPosition(rowNumber, colNumber);
+//        Optional<Tray> potentialTray = getTrayForSymbol(symbol);
+//        trays[rowNumber][colNumber] = null;
+//        return potentialTray;
+        Tray tray = trays[rowNumber][colNumber];
+        if (tray != null) {
+            // return trayDetailsAtPosition(rowNumber, colNumber);
+            trays[rowNumber][colNumber] = null;
+            return Optional.of(tray);
+        } else {
+            return Optional.empty();
+        }
     }
 
-    public  boolean placeTray(Tray tray) {
+    public boolean placeTray(Tray tray) {
         String symbol = tray.getSymbol();
         int rowNumber = getRowNumberForSymbol(symbol);
         int colNumber = getColNumberForSymbol(symbol);
 
-        if(rowNumber <0 || rowNumber>= maxRowsSize){
+        if (rowNumber < 0 || rowNumber >= maxRowsSize) {
             return false;
         }
-        if (colNumber < 0|| colNumber >= maxColsSize) {
+        if (colNumber < 0 || colNumber >= maxColsSize) {
             return false;
         }
-        if(trays [rowNumber][colNumber] != null){
+        if (trays[rowNumber][colNumber] != null) {
             return false;
-        }else{
+        } else {
         }
         trays[rowNumber][colNumber] = tray;
         return true;
+    }
+
+    public Optional<Tray> removeTrayWithSymbol(String symbol) {
+        int rowNumber = getRowNumberForSymbol(symbol);
+        int colNumber = getColNumberForSymbol(symbol);
+        return trayDetailsAtPosition(rowNumber, colNumber);
     }
 
     private int getColNumberForSymbol(String symbol) {
@@ -231,7 +253,7 @@ public class VendingMachine implements Serializable {
         return colSymbol - '1';
     }
 
-    private int getRowNumberForSymbol(String symbol){
+    private int getRowNumberForSymbol(String symbol) {
         char rowSymbol = symbol.toUpperCase().charAt(0);
         int rowNumber = rowSymbol - 'A';
         return rowNumber;
