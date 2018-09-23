@@ -2,10 +2,9 @@ package pl.sdacademy.vending;
 
 import pl.sdacademy.vending.controller.CustomerOperationController;
 import pl.sdacademy.vending.controller.EmplyeeController;
-import pl.sdacademy.vending.controller.services.DefaultEmployeeService;
+import pl.sdacademy.vending.service.DefaultEmployeeService;
 import pl.sdacademy.vending.controller.services.EmployeeService;
 import pl.sdacademy.vending.model.Product;
-import pl.sdacademy.vending.model.VendingMachine;
 import pl.sdacademy.vending.repository.HardDriveVendingMachineRepository;
 import pl.sdacademy.vending.service.repositories.VendingmachineRepository;
 import pl.sdacademy.vending.util.Configuration;
@@ -67,6 +66,9 @@ public class Application {
                 case 9:
                     System.out.println("Bye");
                     break;
+                case 0:
+                    startServiceMenu();
+                    break;
                 default:
                     System.out.println("Invalid selection");
             }
@@ -79,9 +81,55 @@ public class Application {
         } while (userSelection != 9);
     }
 
+    private void startServiceMenu() {
+        int userSelection = -1;
+        do {
+            customerOperationController.printMachine();
+            printServiceMenu();
+            userSelection = getUserInput();
+            switch (userSelection) {
+                case 1:
+                    emplyeeController.addTray();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 9:
+                    System.out.println("Leaving Service Menu");
+                    break;
+                default:
+                    System.out.println("Leaving Service Menu");
+            }
+            // pobierz wybór użytkownika i zapisz w zmiennej userSelection
+            // jeżeli użytkownik wybrał 1 - to pobierz od niego symbol tacki
+            //      i kup produkt
+            // jeżeli użytkownik wybrał 9, to wyświetl pożegnanie
+            // jeżeli użytkownik wybrał dowolną inną opcję (nieistniejącą)
+            //      to wyświetl komunikat błednego wyboru
+        } while (userSelection != 9);
+
+    }
+
     private void printMenu() {
         System.out.println("1. Buy product");
         System.out.println("9. Exit");
+        System.out.println("0. Service Menu");
+    }
+
+    private void printServiceMenu() {
+        System.out.println("1. Add Tray");
+        System.out.println("2. Remove Tray");
+        System.out.println("3. Add product to Tray");
+        System.out.println("4. Remove Product from tray");
+        System.out.println("5. Change Price");
+        System.out.println("9. Exit");
+
+
     }
 
     private int getUserInput() {
