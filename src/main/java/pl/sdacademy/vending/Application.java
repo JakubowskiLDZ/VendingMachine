@@ -92,6 +92,7 @@ public class Application {
                     emplyeeController.addTray();
                     break;
                 case 2:
+                    emplyeeController.removeTray();
                     break;
                 case 3:
                     break;

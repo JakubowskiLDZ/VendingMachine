@@ -260,4 +260,11 @@ public class VendingMachine implements Serializable {
         int rowNumber = rowSymbol - 'A';
         return rowNumber;
     }
+
+    public void addProductToTray(String symbol, Product product){
+        Optional<Tray> tray = getTrayForSymbol(symbol);
+        if(tray.isPresent())
+            tray.get().addProduct(product);
+
+    }
 }

@@ -69,6 +69,14 @@ public class Tray implements Serializable {
         return Optional.ofNullable(firstProduct)
                 .map(Product::getName);
     }
+    public boolean addProduct(Product product){
+        if( products.size()< 10){
+            products.add(product);
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     /**
      * Jeżeli produkt jest dostęny, to metoda ta zwraca go opakowanego w {@link Optional}. W przeciwnym wypadku zwracany
