@@ -207,7 +207,7 @@ public class VendingMachine implements Serializable {
      * @param symbol
      * @return
      */
-    private Optional<Tray> getTrayForSymbol(String symbol) {
+    public Optional<Tray> getTrayForSymbol(String symbol) {
         int rowNumber = getRowNumberForSymbol(symbol);
         int colNumber = getColNumberForSymbol(symbol);
 //        Optional<Tray> potentialTray = getTrayForSymbol(symbol);

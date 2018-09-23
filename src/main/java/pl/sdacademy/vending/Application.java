@@ -95,8 +95,10 @@ public class Application {
                     emplyeeController.removeTray();
                     break;
                 case 3:
+                    emplyeeController.addProducts();
                     break;
                 case 4:
+                    emplyeeController.removeProducts();
                     break;
                 case 5:
                     break;

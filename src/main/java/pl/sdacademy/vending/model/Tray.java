@@ -1,9 +1,8 @@
 package pl.sdacademy.vending.model;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Klasa reprezentująca tackę/podajnik. Przechowuje cenę produktu oraz swój symbol, a także kolejkę produktów.
@@ -77,6 +76,13 @@ public class Tray implements Serializable {
             return false;
         }
     }
+    public List<Product>purge(){
+        List<Product>removedProducts = new ArrayList<>();
+        while (!products.isEmpty()){
+            removedProducts.add(products.poll());
+        }
+        return removedProducts;
+    }
 
     /**
      * Jeżeli produkt jest dostęny, to metoda ta zwraca go opakowanego w {@link Optional}. W przeciwnym wypadku zwracany
@@ -87,6 +93,8 @@ public class Tray implements Serializable {
         // operacja poll pobiera wartość z kolejki oraz usuwa ją z tej kolejki (wszystkie elementy przesuwają się  do przodu)
         return Optional.ofNullable(products.poll());
     }
+
+
 
     public static class Builder {
         private String symbol;
